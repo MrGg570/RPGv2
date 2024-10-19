@@ -18,3 +18,9 @@ class Input:
             elif is_pressed('enter'):
                 input = 'enter'
         return input
+    
+    @classmethod
+    def wait_input(self) -> None:
+        wait = True if self.get_keyboard_input() != 'enter' else False
+        while wait:
+                    wait = True if self.get_keyboard_input() != 'enter' else False
