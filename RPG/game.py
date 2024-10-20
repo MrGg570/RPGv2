@@ -19,7 +19,7 @@ class RPG:
         input()
 
         while not validname:
-            self.tell("What's your name, adventurer?", style='bold gold1')
+            self.tell("What's your name, adventurer?\n", style='bold gold1')
             name = input('>>> ')
             if len(name)>25:
                 self.tell("Oh... I'm afraid that name is too long... Could you try another one?", style='bold gold1')
@@ -29,7 +29,7 @@ class RPG:
                 validname = True
 
         self.tell(f"So your name is {name}... And what class do you belong to?", style='bold gold1')
-        self.player = characterbuilder.Build.create_player(name=name, playerclass=self.screen.menu(actions=['Knight', 'Warrior'], text=f"[bold gold1]{name}... And what class do you belong to?[/bold gold1]"))
+        self.player = characterbuilder.Build.create_player(name=name, playerclass=self.screen.menu(actions=['Knight'], text=f"[bold gold1]So your name is {name}... And what class do you belong to?[/bold gold1]\n"))
 
         self.combat = fight.Combat(player=self.player, display=self.screen)
             
@@ -44,7 +44,7 @@ class RPG:
                 # for j in previouslines:
                 #     self.screen.print(j, "bold white", justify="center")
                 self.screen.print(fragment, style=style)
-                sleep(0.1 if i not in slowdown else 0.4)
+                sleep(0.05 if i not in slowdown else 0.3)
             else:
                 fragment +=i               
                 closing = True if i != "]" else False
