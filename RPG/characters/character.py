@@ -22,6 +22,8 @@ class Character:
         else:
             damage = self.atk*(self.attacks[attack][0]/100)
             other.pv -= round(damage)
+            if other.pv < 0:
+                other.pv = 0 
             return True
 
     def is_alive(self) -> bool:

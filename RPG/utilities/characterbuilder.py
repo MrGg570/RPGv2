@@ -24,8 +24,8 @@ class Build:
             
             case _:
                 raise Exception('Specified enemy name does not exist')
-        
-    @classmethod
+
+    @classmethod 
     def create_player(self, name: str = 'Player', playerclass: str = 'knight') -> object:
         playerclass = playerclass.lower()
         match playerclass:
