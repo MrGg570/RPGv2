@@ -2,16 +2,16 @@
 
 # RPGv2
 
-### Installer le jeu
+### Install the game
 
-- [Téléchargez]() le code en zip et l'extraire
+- [Download]() the code archive and extract it
 
-- Installez les dépendances:
+- Install dependancies:
     ```ssh
     python -m pip install -r requirements.txt
     ```
 
-- Executer le programme python principal:
+- Run main python programm:
     ```ssh
     python main.py
     ```
