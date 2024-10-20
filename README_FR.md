@@ -2,7 +2,7 @@
 
 ### Installer le jeu
 
-- [Téléchargez]() le code en zip et l'extraire
+- [Téléchargez](https://github.com/MrGg570/RPGv2/archive/refs/heads/main.zip) le code en zip et l'extraire
 
 - Installez les dépendances:
     ```ssh
