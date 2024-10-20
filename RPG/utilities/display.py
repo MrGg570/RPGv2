@@ -72,3 +72,4 @@ class Display:
             maintitle += horizontalch
         maintitle += "\u2518\n"
         return maintitle
+    
