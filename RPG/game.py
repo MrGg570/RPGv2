@@ -16,15 +16,15 @@ class RPG:
                 exit(1)
         validname = False
 
-        input()
-
         while not validname:
             self.tell("What's your name, adventurer?\n", style='bold gold1')
             name = input('>>> ')
             if len(name)>25:
                 self.tell("Oh... I'm afraid that name is too long... Could you try another one?", style='bold gold1')
+                self.screen.menu(actions=['OK'], text="[bold gold1]Oh... I'm afraid that name is too long... Could you try another one?[/bold gold1]")
             elif name == '':
                 self.tell("Oh... I'm afraid that name will not work... Could you try another one?", style='bold gold1')
+                self.screen.menu(actions=['OK'], text="[bold gold1]Oh... I'm afraid that name will not work... Could you try another one?[/bold gold1]")
             else:
                 validname = True
 

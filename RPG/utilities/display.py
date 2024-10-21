@@ -43,6 +43,7 @@ class Display:
                     cursor = len(actions) - 1
             elif key == 'bas':
                 cursor += 1
+        input()
         return actions[cursor%len(actions)]
     
     def get_healthbar(self, other: object, number: int | None = None) -> str:
@@ -50,7 +51,7 @@ class Display:
         pvcolor = "bright_green" if other.pv > 50/100*other.maxpv else "orange3" if other.pv > 20/100*other.maxpv else "bright_red"
         bar_length = 30
         fullbarlength = round(other.pv / other.maxpv * bar_length)
-        return f'[bold {namecolor}]{other.name}[/bold {namecolor}] {f'n°{number+1}' if number != None else ''} {(22 - len(other.name)) * ' ' if number != None else (25 - len(other.name)) * ' '} [gold1]Lvl. [/gold1] [green on green]{fullbarlength * ' '}[/green on green][grey19 on grey19]{(bar_length - fullbarlength) * ' '}[/grey19 on grey19] [bold {pvcolor}]{other.pv}[/bold {pvcolor}]/[bold white]{other.maxpv}[/bold white]'
+        return f'[bold {namecolor}]{other.name}[/bold {namecolor}] {f'n°{number+1}' if number != None else ''} {(22 - len(other.name)) * ' ' if number != None else (25 - len(other.name)) * ' '} [gold1]Lvl. {other.lvl}[/gold1] [green on green]{fullbarlength * ' '}[/green on green][grey19 on grey19]{(bar_length - fullbarlength) * ' '}[/grey19 on grey19] [bold {pvcolor}]{other.pv}[/bold {pvcolor}]/[bold white]{other.maxpv}[/bold white]'
     
     def get_multiple_healthbars(self, player: object, enemies: tuple) -> str:
         string = self.get_healthbar(player) + "\n\n"
@@ -73,3 +74,8 @@ class Display:
         maintitle += "\u2518\n"
         return maintitle
     
+    def get_xpbar(self, player: object) -> str:
+        length = 30
+        fullbarlength = round(player.xp / player.maxxp * length)
+        color = "gold3" if player.xp >= 75/100 * player.maxxp else "light_goldenrod3" if player.xp >= 50/100 * player.maxxp else "tan" if player.xp >= 25/100 * player.maxxp else "misty_rose3"
+        return f":sparkler:  [underline bold gold1]XP[/underline bold gold1] [{color} on {color}]{fullbarlength * ' '}[/{color} on {color}][grey19 on grey19]{(length - fullbarlength) * ' '}[/grey19 on grey19] [bold gold1]{player.xp}/{player.maxxp}[/bold gold1]"
