@@ -82,6 +82,6 @@ class RPG:
     
     def get_level(self) -> int:
         chosenlvl = 100
-        while chosenlvl < self.player.lvl:
+        while chosenlvl > self.player.lvl+1:
             chosenlvl = randint(*self.currentzone.lvl)
         return chosenlvl
