@@ -1,5 +1,5 @@
 from RPG.characters import archer, knight, mage, warrior
-from RPG.characters import goblin
+from RPG.characters import goblin, spider, skeleton, mummy
 
 class Build:
     """
@@ -17,10 +17,16 @@ class Build:
         name = name.lower()
         match name:
             case 'goblin':
-                return goblin.Goblin()
+                return goblin.Goblin(lvl=lvl)
 
             case 'spider':
-                return None
+                return spider.Spider(lvl=lvl)
+            
+            case 'skeleton':
+                return skeleton.Skeleton(lvl=lvl)
+            
+            case 'mummy':
+                return mummy.Mummy(lvl=lvl)
             
             case _:
                 raise Exception('Specified enemy name does not exist')
