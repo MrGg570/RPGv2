@@ -8,8 +8,11 @@ class RPG:
         self.screen = display.Display()
 
         self.region = list()
-        zonetype = ('forest', 'forest')
-        zonename = {'forest':['Deep forest', 'Scary forest', 'Death forest', 'Spooky forest', 'Unpleasant forest']}
+        zonetype = ('forest', 'desert')
+        zonename = {
+            'forest': ['Deep forest', 'Scary forest', 'Death forest', 'Spooky forest', 'Unpleasant forest'],
+            'desert': ['Dry desert', 'Creepy desert', 'Torrid desert', 'Burning desert', 'Unpleasant desert'] 
+                    }
         for i in range(5):
             chosentype = choice(zonetype)
             self.region.append(zonebuilder.Build.create_zone(name=choice(zonename[chosentype]), type=chosentype, lvl=(i*10, i*10+10)))
@@ -21,8 +24,6 @@ class RPG:
             self.player = characterbuilder.Build.create_player(name='ImThePlayerOwO')
 
             self.combat = fight.Combat(player=self.player, display=self.screen)
-
-            self.currentzone = zonebuilder.Build.create_zone(name='Starter forest', type='forest', lvl=(1, 10))
 
             return None
 

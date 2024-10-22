@@ -1,4 +1,4 @@
-from RPG.zones import forest
+from RPG.zones import forest, desert, jungle
 
 class Build:
     def __init__(self) -> None:
@@ -10,5 +10,7 @@ class Build:
         match type:
             case 'forest':
                 return forest.Forest(name=name, lvl=lvl)
+            case 'desert':
+                return desert.Desert(name=name, lvl=lvl)
             case _:
                 raise Exception(f'<{type}> is not a valid zone type')
