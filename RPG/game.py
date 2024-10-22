@@ -1,10 +1,30 @@
 from time import sleep
 
-from RPG.utilities import characterbuilder, display, fight
+from RPG.utilities import characterbuilder, display, fight, zonebuilder
+from random import randint, choice
 
 class RPG:
-    def __init__(self) -> None:
+    def __init__(self, skipintro: bool) -> None:
         self.screen = display.Display()
+
+        self.region = list()
+        zonetype = ('forest', 'forest')
+        zonename = {'forest':['Deep forest', 'Scary forest', 'Death forest', 'Spooky forest', 'Unpleasant forest']}
+        for i in range(5):
+            chosentype = choice(zonetype)
+            self.region.append(zonebuilder.Build.create_zone(name=choice(zonename[chosentype]), type=chosentype, lvl=(i*10, i*10+10)))
+            zonename[chosentype].pop(zonename[chosentype].index(self.region[-1].name)) # Pour que chaque zone ai un nom différent
+        # self.region.append(boss)
+        self.currentzone = self.region[0]
+
+        if skipintro:
+            self.player = characterbuilder.Build.create_player(name='ImThePlayerOwO')
+
+            self.combat = fight.Combat(player=self.player, display=self.screen)
+
+            self.currentzone = zonebuilder.Build.create_zone(name='Starter forest', type='forest', lvl=(1, 10))
+
+            return None
 
         selected = self.screen.menu(actions=['Démarrer', 'Quitter'], text=self.screen.get_title('RPG'))
         match selected:
@@ -51,8 +71,17 @@ class RPG:
 
 
     def battle(self) -> bool:
-        enemiesnumber = 1
+        enemiesnumber = randint(1, 3)
         enemies = list()
         for i in range(enemiesnumber):
-            enemies.append(characterbuilder.Build.create_enemy())
+            enemies.append(characterbuilder.Build.create_enemy(name=self.get_enemy(), lvl=self.get_level()))
         return self.combat.fight(*enemies)
+    
+    def get_enemy(self) -> str:
+        return choice(self.currentzone.monsters)
+    
+    def get_level(self) -> int:
+        chosenlvl = 100
+        while chosenlvl < self.player.lvl:
+            chosenlvl = randint(*self.currentzone.lvl)
+        return chosenlvl
