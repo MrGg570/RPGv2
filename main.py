@@ -1,5 +1,5 @@
 from RPG.game import RPG
 
-game = RPG(True)
-
-game.battle()
+game = RPG()
+while True:
+    game.global_menu()
