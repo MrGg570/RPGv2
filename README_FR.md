@@ -9,8 +9,8 @@
   - [ ] Système de faiblesse (Je le ferais à l'occasion)
 
 - [ ] __**Système de déplacement**__
-  - [ ] Changements de zone
-  - [ ] Effets et attributs de zone
+  - [x] Changements de zone
+  - [x] Effets et attributs de zone
   - [ ] Système de quêtes pour débloquer les zones
   
 - [ ] __**Système d'inventaire et d'objets**__
@@ -18,6 +18,10 @@
   - [ ] Effets et atributs des équipements équipés
   - [ ] Drop d'objets lors de combats
   - [ ] Système de boutique et de monnaie
+
+- [ ] **Ajout d'une ligne narrative**
+  - [ ] Ajout de plus de zones, monstres & objets
+  - [ ] Ajout d'un combat final (Boss)
 
 ### Installer le jeu
 

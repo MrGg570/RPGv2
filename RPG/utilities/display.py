@@ -79,3 +79,25 @@ class Display:
         fullbarlength = round(player.xp / player.maxxp * length) if player.xp <= player.maxxp else length
         color = "gold3" if player.xp >= 75/100 * player.maxxp else "light_goldenrod3" if player.xp >= 50/100 * player.maxxp else "tan" if player.xp >= 25/100 * player.maxxp else "misty_rose3"
         return f":sparkler:  [underline bold gold1]XP[/underline bold gold1] [{color} on {color}]{fullbarlength * ' '}[/{color} on {color}][grey19 on grey19]{(length - fullbarlength) * ' '}[/grey19 on grey19] [bold gold1]{player.xp}/{player.maxxp}[/bold gold1]"
+    
+    def get_map(self, region: list, currentzone: object) -> str:
+        string = 'Vous : [bold green]O[/bold green]\n\n'
+        string += ('\u250c' + '\u2500'*3 + '\u2510' + '  ') * 5 + '\n'
+        for i, e in enumerate(region):
+            string += ('\u2502' + (' [bold green]O[/bold green] ' if e == currentzone else '   ') + '\u2502' + (' \u2192' if i < len(region)-1 else ''))
+        string += '\n' + ('\u2514' + '\u2500'*3 + '\u2518' + '  ') * 5 + '\n'
+        string += 'Niv5   Niv15  Niv25  Niv35  Niv45  Boss\n'
+        return string
+
+'''
+° vous
+
+barre verticale : '\u2502'
+barre horizontale : '\u2500'
+
+coin haut gauche :  '\u250c'
+coin haut droit : '\u2510'
+coin bas gauche : '\u2514'
+coin bas droite :  '\u2518'
+
+'''

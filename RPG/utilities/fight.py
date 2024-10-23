@@ -8,6 +8,7 @@ class Combat:
     def fight(self, *enemies) -> str | bool:
         enemiesalive = True
         while self.player.is_alive() and enemiesalive:
+            backed = False
             actions = ['Attack', 'Bag', 'Flee']
             selected = self.display.menu(actions=actions, text=self.display.get_multiple_healthbars(player=self.player, enemies=enemies))
             match selected:
@@ -18,7 +19,7 @@ class Combat:
 
                     match selected:
                         case 'Back':
-                            pass
+                            backed = True
                     
                         case _:
                             if len(enemies) == 1:
@@ -26,10 +27,19 @@ class Combat:
                                 success = self.player.attack(enemies[0], selected)
 
                             else:
-                                enemieslist = [e.name + ' ({})'.format(i+1) for i, e in enumerate(enemies)]
+                                enemieslist = [e.name + ' ({})'.format(i+1) if e.is_alive() else None for i, e in enumerate(enemies)]
+                                for i in range(len(enemieslist)-1):
+                                    if enemieslist[i] == None:
+                                        enemieslist.pop(i)
+                                enemieslist.append('Cancel')
                                 enemy = self.display.menu(actions=enemieslist, text=self.display.get_multiple_healthbars(player=self.player, enemies=enemies))
-                                self.display.menu(actions=['OK'], text=self.display.get_multiple_healthbars(player=self.player, enemies=enemies), info = f'Vous attaquez {enemies[int(enemy[-2])-1].name} ({enemy[-2]}) avec {selected}!')
-                                success = self.player.attack(enemies[int(enemy[-2])-1], selected)
+                                if enemy != 'Cancel':
+                                    self.display.menu(actions=['OK'], text=self.display.get_multiple_healthbars(player=self.player, enemies=enemies), info = f'Vous attaquez {enemies[int(enemy[-2])-1].name} ({enemy[-2]}) avec {selected}!')
+                                    success = self.player.attack(enemies[int(enemy[-2])-1], selected)
+                                
+                                else:
+                                    backed = True
+                                    success = True
                                     
                             if not success:
                                 self.display.menu(actions=['OK'], text=self.display.get_multiple_healthbars(player=self.player, enemies=enemies), info = f'Vous ratez votre attaque!')
@@ -40,19 +50,20 @@ class Combat:
                 case 'Flee':
                     pass
 
-            number = 0
-            for i, e in enumerate(enemies):
-                if not e.is_alive():
-                    number += 1
-                elif self.player.is_alive():
-                    chosen = choice(list(e.attacks.keys()))
-                    self.display.menu(actions = ['OK'], text = self.display.get_multiple_healthbars(player=self.player, enemies=enemies), info = f'{e.name} vous attaque avec {chosen}!' if len(enemies) == 1 else f'{e.name} ({i+1}) vous attaque avec {chosen}!')
-                    if not e.attack(self.player, chosen):
-                        self.display.menu(actions = ['OK'], text = self.display.get_multiple_healthbars(player=self.player, enemies=enemies), info = f'{e.name} rate son attaque!' if len(enemies) == 1 else f'{e.name} ({i+1}) rate son attaque!')
-                else:
-                    slayer = e
-            if number == len(enemies):
-                enemiesalive = False
+            if not backed:
+                number = 0
+                for i, e in enumerate(enemies):
+                    if not e.is_alive():
+                        number += 1
+                    elif self.player.is_alive():
+                        chosen = choice(list(e.attacks.keys()))
+                        self.display.menu(actions = ['OK'], text = self.display.get_multiple_healthbars(player=self.player, enemies=enemies), info = f'{e.name} vous attaque avec {chosen}!' if len(enemies) == 1 else f'{e.name} ({i+1}) vous attaque avec {chosen}!')
+                        if not e.attack(self.player, chosen):
+                            self.display.menu(actions = ['OK'], text = self.display.get_multiple_healthbars(player=self.player, enemies=enemies), info = f'{e.name} rate son attaque!' if len(enemies) == 1 else f'{e.name} ({i+1}) rate son attaque!')
+                    else:
+                        slayer = e
+                if number == len(enemies):
+                    enemiesalive = False
         return self.lose(self.display.get_multiple_healthbars(player=self.player, enemies=enemies), slayer) if enemiesalive else self.win(self.display.get_multiple_healthbars(player=self.player, enemies=enemies), enemies)
     
     def win(self, lastbar: str, enemies) -> bool:

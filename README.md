@@ -11,8 +11,8 @@
   - [ ] Weakness system (I'll do it eventually)
 
 - [ ] __**Travelling system**__
-  - [ ] Handling zone changes
-  - [ ] Handling zone effects and attributes
+  - [x] Handling zone changes
+  - [x] Handling zone effects and attributes
   - [ ] Quest system to unlock zones
   
 - [ ] __**Objects & bag system**__
@@ -20,6 +20,10 @@
   - [ ] Handling equiped equipement effects and buffs
   - [ ] Object drops in fights
   - [ ] Shop system and currency
+  
+- [ ] **Adding a story line**
+  - [ ] Adding more zones, monsters, items
+  - [ ] Add a boss
 
 
 ### Install the game
