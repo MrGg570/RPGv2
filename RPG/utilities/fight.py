@@ -28,9 +28,9 @@ class Combat:
 
                             else:
                                 enemieslist = [e.name + ' ({})'.format(i+1) if e.is_alive() else None for i, e in enumerate(enemies)]
-                                for i in range(len(enemieslist)-1):
-                                    if enemieslist[i] == None:
-                                        enemieslist.pop(i)
+                                for i in enemieslist:
+                                    if i == None:
+                                        enemieslist.pop(enemieslist.index(i))
                                 enemieslist.append('Cancel')
                                 enemy = self.display.menu(actions=enemieslist, text=self.display.get_multiple_healthbars(player=self.player, enemies=enemies))
                                 if enemy != 'Cancel':
