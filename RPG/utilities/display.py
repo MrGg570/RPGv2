@@ -51,7 +51,7 @@ class Display:
         pvcolor = "bright_green" if other.pv > 50/100*other.maxpv else "orange3" if other.pv > 20/100*other.maxpv else "bright_red"
         bar_length = 30
         fullbarlength = round(other.pv / other.maxpv * bar_length)
-        return f'[bold {namecolor}]{other.name}[/bold {namecolor}] {f'({number+1})' if number != None else ''} {(22 - len(other.name)) * ' ' if number != None else (25 - len(other.name)) * ' '} [gold1]Lvl. {other.lvl}[/gold1] [green on green]{fullbarlength * ' '}[/green on green][grey19 on grey19]{(bar_length - fullbarlength) * ' '}[/grey19 on grey19] [bold {pvcolor}]{other.pv}[/bold {pvcolor}]/[bold white]{other.maxpv}[/bold white]'
+        return f'[bold {namecolor}]{other.name}[/bold {namecolor}] {f"({number+1})" if number != None else ""} {(22 - len(other.name)) * " " if number != None else (25 - len(other.name)) * " "} [gold1]Lvl. {other.lvl}[/gold1] [green on green]{fullbarlength * " "}[/green on green][grey19 on grey19]{(bar_length - fullbarlength) * " "}[/grey19 on grey19] [bold {pvcolor}]{other.pv}[/bold {pvcolor}]/[bold white]{other.maxpv}[/bold white]'
     
     def get_multiple_healthbars(self, player: object, enemies: tuple) -> str:
         string = self.get_healthbar(player) + "\n\n"
