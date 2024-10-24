@@ -88,6 +88,13 @@ class Display:
         string += '\n' + ('\u2514' + '\u2500'*3 + '\u2518' + '  ') * 5 + '\n'
         string += 'Niv5   Niv15  Niv25  Niv35  Niv45  Boss\n'
         return string
+    
+    def get_quests(self, quests: dict) -> str:
+        string = ''
+        for i, e in enumerate(quests.keys()):
+            style = 'bold green' if quests[e][1] >= quests[e][2] else 'bold bright_red'
+            string += f'[{style}]Quête {i+1}: {quests[e][0]} ({quests[e][1]}/{quests[e][2]})[/{style}]\n'
+        return string
 
 '''
 ° vous

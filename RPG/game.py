@@ -20,6 +20,8 @@ class RPG:
         # self.region.append(boss)
         self.currentzone = self.region[0]
 
+        self.quests = {1:['Vaincre 10 ennemies', 0, 10, 'kill'], 2: ['Infliger 500 points de dégat', 0, 500, 'dmg']}
+
         start = False
         while not start:
             selected = self.screen.menu(actions=['Démarrer', 'Options', 'Quitter'], text=self.screen.get_title('RPG'))
@@ -86,7 +88,7 @@ class RPG:
                 closing = True if i != "]" else False
 
 
-    def battle(self) -> bool:
+    def battle(self) -> tuple:
         enemiesnumber = randint(1, 3)
         enemies = list()
         for i in range(enemiesnumber):
@@ -105,38 +107,65 @@ class RPG:
         return chosenlvl
     
     def global_menu(self):
-        selected = self.screen.menu(actions=['Combattre', 'Boutique', 'Sac', 'Carte'], text=self.screen.get_title('MENU'))
+        selected = self.screen.menu(actions=['Combattre', 'Sac', 'Boutique', 'Eglise', 'Carte', 'Quêtes'], text=self.screen.get_title('MENU'))
 
         match selected:
             case 'Combattre':
-                if self.battle():
+                result,  data = self.battle()
+                if result == 'flee':
+                    self.tell('Vous fuyez le combat...')
+                    self.screen.menu(actions=['OK'], text='Vous fuyez le combat...')
+                elif result:
                     pass
-
                 else:
                     self.respawn()
+                self.update_quests(data)
+
+            case 'Sac':
+                pass
 
             case 'Boutique':
                 pass
 
-            case 'Sac':
-                pass
+            case 'Eglise':
+                self.eglise()
 
             case 'Carte':
                 actions = ['Zone suivante', 'Retour'] if self.currentzone == self.region[0] else ['Zone précédente', 'Retour'] if self.currentzone == self.region[-1] else ['Zone suivante', 'Zone précédente', 'Retour']
                 selected = self.screen.menu(actions=actions, text=self.screen.get_map(self.region, self.currentzone))
                 match selected:
                     case 'Zone suivante':
-                        # if prérequis:
-                        self.currentzone = self.region[self.region.index(self.currentzone)+1]
-                        self.screen.menu(actions=['OK'], text=self.screen.get_map(self.region, self.currentzone), info=f'Vous entrez dans {self.currentzone.name}')
+                        if self.is_quest_done(self.quests[self.region.index(self.currentzone)+1]):
+                            self.currentzone = self.region[self.region.index(self.currentzone)+1]
+                            self.screen.menu(actions=['OK'], text=self.screen.get_map(self.region, self.currentzone), info=f'Vous entrez dans {self.currentzone.name}')
+                        else: 
+                             self.screen.menu(actions=['OK'], text=self.screen.get_map(self.region, self.currentzone), info=f"[bold bright_red]Vous devez d'abord terminer la quête {self.region.index(self.currentzone)+1}: {self.quests[self.region.index(self.currentzone)+1][0]}")
 
                     case 'Zone précédente':
-                        # if prérequis:
                         self.currentzone = self.region[self.region.index(self.currentzone)-1]
                         self.screen.menu(actions=['OK'], text=self.screen.get_map(self.region, self.currentzone), info=f'Vous entrez dans {self.currentzone.name}')
 
                     case _:
                         pass
 
-    def respawn(self):
+            case 'Quêtes':
+                self.screen.menu(actions=['OK'], text=self.screen.get_quests(self.quests))
+
+    def is_quest_done(self, quest: list) -> bool:
+        return quest[1] >= quest[2]
+    
+    def update_quests(self, data: tuple):
+        kills, dmg = data
+        for quest in self.quests.keys():
+            if self.quests[quest][3] == 'kill':
+                self.quests[quest][1] += kills
+            elif self.quests[quest][3] == 'dmg':
+                self.quests[quest][1] += dmg
+
+    def eglise(self) -> None:
+        self.tell(string="Vous vous rendez à l'église pour prier...")
+        self.screen.menu(actions=['OK'], text='Vos [bold green]PV[/bold green] ont été restaurés!')
+        self.player.pv = self.player.maxpv
+
+    def respawn(self) -> None:
         pass
