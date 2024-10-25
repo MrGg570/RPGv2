@@ -1,30 +1,46 @@
-from random import randint
+from random import randint, uniform
 
 class Character:
     """
     Classe de base pour définir des personnages
     """
-    def __init__(self, name:str, pv:int, atk:int, arm: int, lvl:int) -> None:
+    def __init__(self, name:str, pv:int, atk:int, arm: int, lvl:int, number: int = 1, f:int = 1) -> None:
         if len(name)>25:
             raise Exception('Specified name is too long')
+        
+        self.lvl = lvl
+            
         self.name = name
-        self.pv = pv
-        self.maxpv = pv
+
+        self.f = f # Facteur de difficulté, f < 1 difficulté réduite, f > 1 augmentation de la difficulté
+        self.pv = round((self.calc_stat(pv, 'pv') * self.f) / number)
+
+        self.maxpv = self.pv
         self.atk = atk
         self.arm = arm
-
-        self.lvl = lvl
 
         self.isplayer = False
 
         self.attacks = dict()
 
-    def attack(self, other: object, attack: str) -> bool:
+    def calc_stat(self, base: int, stat: str = 'atk') -> int:
+        match stat:
+            case 'atk':
+                r = .05 # Modifier la vitesse de la croissance exponentielle
+                return round(base * (1 + r) ** (self.lvl - 1))
+            
+            case 'pv':
+                r = .05
+                return round(base * self.f * (1 + r) ** (self.lvl - 1))
+
+        
+    def attack(self, other: 'Character', attack: str) -> bool:
         if randint(0,100) > self.attacks[attack][1]:
             return False
         else:
-            damage = (self.atk*(self.attacks[attack][0]/100))
-            other.pv -= round(damage - damage * (other.arm/100))
+            attackvalue = (self.calc_stat(self.atk, 'atk') * (self.attacks[attack][0]/100)) * (1 + uniform(-0.1, 0.1)) * 0.5
+
+            other.pv -= round(max(0, attackvalue - attackvalue * (other.arm / 100)))
             if other.pv < 0:
                 other.pv = 0 
             return True

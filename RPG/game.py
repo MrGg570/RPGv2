@@ -44,6 +44,9 @@ class RPG:
                     self.screen.clear()
                     exit(1)
 
+        self.difficulty = 1.5
+        self.specialmonsters = ('Soul eater', 'Fallen angel')
+
         if skipintro:
             self.player = characterbuilder.Build.create_player(name='ImThePlayerOwO')
 
@@ -91,12 +94,16 @@ class RPG:
     def battle(self) -> tuple:
         enemiesnumber = randint(1, 3)
         enemies = list()
+        if enemiesnumber == 1 and randint(0, 100) <= 5:
+            name = self.get_enemy(True)
+        else:
+            name = self.get_enemy()
         for i in range(enemiesnumber):
-            enemies.append(characterbuilder.Build.create_enemy(name=self.get_enemy(), lvl=self.get_level()))
+            enemies.append(characterbuilder.Build.create_enemy(name=name, lvl=self.get_level() if name not in self.specialmonsters else self.player.lvl, enemies=enemiesnumber, f=self.difficulty))
         return self.combat.fight(*enemies)
     
-    def get_enemy(self) -> str:
-        return choice(self.currentzone.monsters)
+    def get_enemy(self, special: bool = False) -> str:
+        return choice(self.currentzone.monsters) if not special else choice(self.specialmonsters)
     
     def get_level(self) -> int:
         if self.currentzone.lvl[0] > self.player.lvl:

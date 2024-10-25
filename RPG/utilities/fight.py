@@ -7,6 +7,7 @@ class Combat:
 
     def fight(self, *enemies) ->  tuple:
         enemiesalive = True
+        slayer = enemies[0]
         while self.player.is_alive() and enemiesalive:
             backed = False
             actions = ['Attack', 'Bag', 'Flee']
@@ -60,7 +61,7 @@ class Combat:
                         self.display.menu(actions = ['OK'], text = self.display.get_multiple_healthbars(player=self.player, enemies=enemies), info = f'{e.name} vous attaque avec {chosen}!' if len(enemies) == 1 else f'{e.name} ({i+1}) vous attaque avec {chosen}!')
                         if not e.attack(self.player, chosen):
                             self.display.menu(actions = ['OK'], text = self.display.get_multiple_healthbars(player=self.player, enemies=enemies), info = f'{e.name} rate son attaque!' if len(enemies) == 1 else f'{e.name} ({i+1}) rate son attaque!')
-                        if not self.player.is_alive():
+                        elif not self.player.is_alive():
                             slayer = e
                 if number == len(enemies):
                     enemiesalive = False
@@ -74,7 +75,10 @@ class Combat:
         gold = 0
 
         for i in enemies:
-            exp += i.lvl * 100
+            if i.name in ('Fallen angel', 'Soul eater'):
+                exp += i.lvl * 300
+            else:
+                exp += i.lvl * 100
 
         self.display.menu(actions = ['OK'], text = lastbar, info = f':sparkles: [green]Vous[/green] [bold]gagnez[/bold] [bold gold1]{exp} XP[/bold gold1] :sparkler:!')
         self.player.xp += exp

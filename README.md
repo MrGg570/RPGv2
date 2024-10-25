@@ -8,6 +8,7 @@
   - [x] Applying damage to characters
   - [x] Handling multiple attack choices
   - [x] Handling multiple enemies
+  - [ ] Difficulty balancing (in progress)
   - [ ] Weakness system (I'll do it eventually)
 
 - [ ] __**Travelling system**__

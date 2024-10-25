@@ -6,6 +6,7 @@
   - [x] Dégats entre personnages
   - [x] Plusieurs attaques
   - [x] Plusieurs ennemies
+  - [ ] Equilibrage (en cours)
   - [ ] Système de faiblesse (Je le ferais à l'occasion)
 
 - [x] __**Système de déplacement**__
