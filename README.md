@@ -11,10 +11,10 @@
   - [ ] Difficulty balancing (in progress)
   - [ ] Weakness system (I'll do it eventually)
 
-- [ ] __**Travelling system**__
+- [x] __**Travelling system**__
   - [x] Handling zone changes
   - [x] Handling zone effects and attributes
-  - [ ] Quest system to unlock zones
+  - [x] Quest system to unlock zones
   
 - [ ] __**Objects & bag system**__
   - [ ] Inventory slots for equipement
