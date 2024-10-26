@@ -4,6 +4,9 @@ from rich.console import Console
 from os import system
 
 class Display:
+    """
+    Classe qui gère l'affichage
+    """
     def __init__(self) -> None:
         # system('mode con: cols=2000 lines=300')
         self.get_key = lambda: inputs.Input.get_keyboard_input()
@@ -18,6 +21,9 @@ class Display:
         self.console.print(string, style=style, highlight=False, justify=justify)
 
     def menu(self, actions: list, text: str | None = None, info: str | None = None) -> str:
+        """
+        Crée un menu avec les arguments donnés
+        """
 
         assert actions != [] and type(actions) == list, 'Specified list of actions is not valid'
 
@@ -47,6 +53,9 @@ class Display:
         return actions[cursor%len(actions)]
     
     def get_healthbar(self, other: object, number: int | None = None) -> str:
+        """
+        Retourne une chaine de caractère représentant l'affichage du personnage et sa vie
+        """
         namecolor = 'green' if other.isplayer else 'bright_red'
         pvcolor = "bright_green" if other.pv > 50/100*other.maxpv else "orange3" if other.pv > 20/100*other.maxpv else "bright_red"
         bar_length = 30
@@ -54,12 +63,18 @@ class Display:
         return f'[bold {namecolor}]{other.name}[/bold {namecolor}] {f"({number+1})" if number != None else ""} {(22 - len(other.name)) * " " if number != None else (25 - len(other.name)) * " "} [gold1]Lvl. {other.lvl}[/gold1] [green on green]{fullbarlength * " "}[/green on green][grey19 on grey19]{(bar_length - fullbarlength) * " "}[/grey19 on grey19] [bold {pvcolor}]{other.pv}[/bold {pvcolor}]/[bold white]{other.maxpv}[/bold white]'
     
     def get_multiple_healthbars(self, player: object, enemies: tuple) -> str:
+        """
+        Retourne une chaine de ccaractère avec les barres de vie du joueur et des ennemis
+        """
         string = self.get_healthbar(player) + "\n\n"
         for i, e in enumerate(enemies):
             string += self.get_healthbar(e, i if len(enemies)>1 else None) + "\n\n"
         return  string
     
     def get_title(self, title: str) -> str:
+        """
+        Construit une chaine de caractère: un titre entouré
+        """
         horizontalch = "\u2500"
         maintitle = "\u250c"
         for i in range(len(title)+4):
@@ -75,18 +90,34 @@ class Display:
         return maintitle
     
     def get_xpbar(self, player: object) -> str:
+        """
+        Retourne une chaine de caractères représentant une barre d'expérience
+        """
         length = 30
         fullbarlength = round(player.xp / player.maxxp * length) if player.xp <= player.maxxp else length
         color = "gold3" if player.xp >= 75/100 * player.maxxp else "light_goldenrod3" if player.xp >= 50/100 * player.maxxp else "tan" if player.xp >= 25/100 * player.maxxp else "misty_rose3"
         return f":sparkler:  [underline bold gold1]XP[/underline bold gold1] [{color} on {color}]{fullbarlength * ' '}[/{color} on {color}][grey19 on grey19]{(length - fullbarlength) * ' '}[/grey19 on grey19] [bold gold1]{player.xp}/{player.maxxp}[/bold gold1]"
     
     def get_map(self, region: list, currentzone: object) -> str:
+        """
+        Retourne une chaine de caractère représentant une carte avec la position du joueur
+        """
         string = 'Vous : [bold green]O[/bold green]\n\n'
         string += ('\u250c' + '\u2500'*3 + '\u2510' + '  ') * 5 + '\n'
         for i, e in enumerate(region):
             string += ('\u2502' + (' [bold green]O[/bold green] ' if e == currentzone else '   ') + '\u2502' + (' \u2192' if i < len(region)-1 else ''))
         string += '\n' + ('\u2514' + '\u2500'*3 + '\u2518' + '  ') * 5 + '\n'
         string += 'Niv5   Niv15  Niv25  Niv35  Niv45  Boss\n'
+        return string
+    
+    def get_quests(self, quests: dict) -> str:
+        """
+        Retourne une chaine de caractère permettant d'afficher lkes quêtes du joueur
+        """
+        string = ''
+        for i, e in enumerate(quests.keys()):
+            style = 'bold green' if quests[e][1] >= quests[e][2] else 'bold bright_red'
+            string += f'[{style}]Quête {i+1}: {quests[e][0]} ({quests[e][1]}/{quests[e][2]})[/{style}]\n'
         return string
 
 '''

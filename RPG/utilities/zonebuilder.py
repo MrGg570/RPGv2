@@ -6,6 +6,9 @@ class Build:
 
     @classmethod
     def create_zone(self, name: str, type: str, lvl: tuple) -> object:
+        """
+        Permet d'instancier une zone selon les paramètres
+        """
         type = type.lower()
         match type:
             case 'forest':
