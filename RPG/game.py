@@ -4,6 +4,9 @@ from RPG.utilities import characterbuilder, display, fight, zonebuilder
 from random import randint, choice
 
 class RPG:
+    """
+    Classe utilisée pour gérer l'entiereté du jeu et des modules
+    """
     def __init__(self, skipintro: bool = False) -> None:
         self.screen = display.Display()
 
@@ -75,6 +78,9 @@ class RPG:
         self.combat = fight.Combat(player=self.player, display=self.screen)
             
     def tell(self, string: str, style: str | None = None) -> None:
+        """
+        Affiche un texte caractère par caractère
+        """
         fragment = ''
         slowdown = (',','.', '?', '!')
         closing = False
@@ -92,6 +98,9 @@ class RPG:
 
 
     def battle(self) -> tuple:
+        """
+        Crée des ennemies et lance un combat
+        """
         enemiesnumber = randint(1, 3)
         enemies = list()
         if enemiesnumber == 1 and randint(0, 100) <= 5:
@@ -103,9 +112,15 @@ class RPG:
         return self.combat.fight(*enemies)
     
     def get_enemy(self, special: bool = False) -> str:
+        """
+        Retourne un ennemi parmis ceux disponible dans la zone
+        """
         return choice(self.currentzone.monsters) if not special else choice(self.specialmonsters)
     
     def get_level(self) -> int:
+        """
+        Retourne un niveau d'ennemi approprié par rapport à la zone et au joueur
+        """
         if self.currentzone.lvl[0] > self.player.lvl:
             return randint(self.currentzone.lvl[0], self.currentzone.lvl[0]+4)
         chosenlvl = 100
@@ -114,6 +129,9 @@ class RPG:
         return chosenlvl
     
     def global_menu(self):
+        """
+        Gère le menu prinbcipal du jeu
+        """
         selected = self.screen.menu(actions=['Combattre', 'Sac', 'Boutique', 'Eglise', 'Carte', 'Quêtes'], text=self.screen.get_title('MENU'))
 
         match selected:
@@ -159,9 +177,15 @@ class RPG:
                 self.screen.menu(actions=['OK'], text=self.screen.get_quests(self.quests))
 
     def is_quest_done(self, quest: list) -> bool:
+        """
+        Vérifie si une quête est terminée
+        """
         return quest[1] >= quest[2]
     
     def update_quests(self, data: tuple):
+        """
+        Met à jour les quêtes
+        """
         kills, dmg = data
         for quest in self.quests.keys():
             if self.quests[quest][3] == 'kill':
@@ -170,6 +194,9 @@ class RPG:
                 self.quests[quest][1] += dmg
 
     def eglise(self) -> None:
+        """
+        Permet au joueur de récupérer ses points de vies
+        """
         self.tell(string="Vous vous rendez à l'église pour prier...")
         self.screen.menu(actions=['OK'], text='Vos [bold green]PV[/bold green] ont été restaurés!')
         self.player.pv = self.player.maxpv

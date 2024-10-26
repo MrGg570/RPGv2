@@ -5,7 +5,7 @@ from RPG.characters.special import fallenangel, souleater
 
 class Build:
     """
-    Classe utiliser pour obtinir les monstres et le joueur
+    Classe utiliser pour obtenir les monstres et le joueur
     """
     def __init__(self) -> None:
         pass
@@ -14,7 +14,7 @@ class Build:
     def create_enemy(self, name: str = 'goblin', lvl: int = 1, enemies: int = 1, f: int = 1) -> object:
         """
         Le décorateur permet d'appeler la fonction sans instancier d'objet.
-        La fonction retourne le personnage demandé avec le niveau précisé 
+        La fonction retourne l'ennemi demandé avec le niveau précisé 
         """
         name = name.lower()
         match name:
@@ -41,6 +41,10 @@ class Build:
 
     @classmethod 
     def create_player(self, name: str = 'Player', playerclass: str = 'knight') -> object:
+        """
+        Permet d'instancier le joueur
+        Retourne un objet joueur de la classe spécifiée
+        """
         playerclass = playerclass.lower()
         match playerclass:
 

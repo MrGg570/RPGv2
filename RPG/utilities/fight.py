@@ -1,11 +1,17 @@
 from random import choice
 
 class Combat:
+    """
+    Classe qui permet de gérer les combats
+    """
     def __init__(self, player: object, display: object) -> None:
         self.player = player
         self.display = display
 
-    def fight(self, *enemies) ->  tuple:
+    def fight(self, *enemies: object) ->  tuple:
+        """
+        Gère un combat entre le joueur et les ennemies donnés en arguments
+        """
         enemiesalive = True
         slayer = enemies[0]
         while self.player.is_alive() and enemiesalive:
@@ -69,6 +75,9 @@ class Combat:
         return result, self.get_battle_data(enemies=enemies)
     
     def win(self, lastbar: str, enemies) -> bool:
+        """
+        Appelé quand le joueur gagne un combat, permet de calculer les récompenses
+        """
         self.display.menu(actions = ['OK'], text = lastbar, info = ':tada: Vous avez gagné le combat!')
 
         exp = 0
@@ -94,10 +103,16 @@ class Combat:
         return True
 
     def lose(self, lastbar: str, slayer: object) -> bool:
+        """
+        Appelé quand le joueur meurt
+        """
         self.display.menu(actions = ['OK'], text = lastbar, info = f':skull: Vous avez été terrassé par {slayer.name} Lvl. {slayer.lvl}!')
         return False
 
     def get_battle_data(self, enemies: tuple) -> tuple:
+        """
+        A la fin du combat, calcule les dégats et le nombre d'ennemies tués et renvoi les valeurs
+        """
         kills = 0
         dmg = 0
         for i in enemies:

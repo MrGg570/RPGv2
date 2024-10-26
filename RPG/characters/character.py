@@ -24,6 +24,9 @@ class Character:
         self.attacks = dict()
 
     def calc_stat(self, base: int, stat: str = 'atk') -> int:
+        """
+        Permet de calculer les statistiques selon le niveau à partir des statistiques de base (modèle exponentiel)
+        """
         match stat:
             case 'atk':
                 r = .05 # Modifier la vitesse de la croissance exponentielle
@@ -35,6 +38,9 @@ class Character:
 
         
     def attack(self, other: 'Character', attack: str) -> bool:
+        """
+        Permet de gérer une attaque d'un personnage sur un autre
+        """
         if randint(0,100) > self.attacks[attack][1]:
             return False
         else:
